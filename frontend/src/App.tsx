@@ -1,4 +1,4 @@
-import RecipesPage from "./recipes/Recipes";
+import RecipesPage from "./Recipes/Recipes";
 function App() {
   return <RecipesPage />;
 }

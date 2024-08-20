@@ -8,9 +8,9 @@ function translateStatusToErrorMessage(status: number) {
     case 401:
       return "Please login again.";
     case 403:
-      return "You do not have permission to view the project(s).";
+      return "You do not have permission to view the recipe(s).";
     default:
-      return "There was an error retrieving the project(s). Please try again.";
+      return "There was an error retrieving the recipe(s). Please try again.";
   }
 }
 
@@ -56,7 +56,7 @@ const recipeAPI = {
       .catch((error: TypeError) => {
         console.log("log client error " + error);
         throw new Error(
-          "There was an error retrieving the projects. Please try again."
+          "There was an error retrieving the recipes. Please try again."
         );
       });
   },
@@ -73,7 +73,7 @@ const recipeAPI = {
       .catch((error: TypeError) => {
         console.log("log client error " + error);
         throw new Error(
-          "There was an error updating the project. Please try again."
+          "There was an error inserting the recipe. Please try again."
         );
       });
   },
