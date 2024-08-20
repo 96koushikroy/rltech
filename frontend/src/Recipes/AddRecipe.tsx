@@ -1,12 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Button, Form, Container, Row, Col, Card } from "react-bootstrap";
 import { Recipe, Item } from "./Recipe";
 import { toast, ToastContainer } from "react-toastify";
+
+import { recipeAPI } from "./recipeAPI";
 
 export interface AddRecipeProps {
   addRecipeList: Dispatch<SetStateAction<Recipe[]>>;
@@ -44,15 +41,15 @@ export default function RecipesPage({ addRecipeList }: AddRecipeProps) {
     });
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    if (recipeName == "") {
+    if (recipeName === "") {
       toast.error("Recipe name cannot be empty");
       return;
     }
 
-    if (fields.length == 0) {
+    if (fields.length === 0) {
       toast.error("At least add one item");
       return;
     }
@@ -69,13 +66,19 @@ export default function RecipesPage({ addRecipeList }: AddRecipeProps) {
       recipe_name: recipeName,
       items: fields,
     };
-    addRecipeList((recipes) => {
-      recipes = [...recipes, payload];
-      return recipes;
-    });
-    setFields([]);
-    setRecipeName("");
-    toast.success("Recipe added successfully!");
+  
+    try {
+      await recipeAPI.post(payload);
+      addRecipeList((recipes) => {
+        recipes = [...recipes, payload];
+        return recipes;
+      });
+      setFields([]);
+      setRecipeName("");
+      toast.success("Recipe added successfully!");
+    } catch(e: any) {
+      toast.error(e.message)
+    }
   };
 
   return (

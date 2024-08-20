@@ -1,11 +1,25 @@
 import Container from "react-bootstrap/Container";
 import AddRecipe from "./AddRecipe";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Recipe } from "./Recipe";
 import RecipeList from "./RecipeList";
+import { recipeAPI } from "./recipeAPI";
+import { toast } from "react-toastify";
 
 export default function RecipesPage() {
   const [recipeList, setRecipeList] = useState<Recipe[]>([]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await recipeAPI.get()
+        setRecipeList(response)
+      } catch (error: any) {
+        toast.error(error.message)
+      }
+
+    }
+    fetchUserData()
+  },[])
 
   return (
     <>
